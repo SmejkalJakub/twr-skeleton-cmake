@@ -1,0 +1,7 @@
+cmake -Bobj/debug . -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=debug
+ninja -C obj/debug
+ninja -C obj/debug clean
+
+cmake -Bobj/release . -G Ninja -DCMAKE_TOOLCHAIN_FILE=sdk/toolchain/toolchain.cmake -DTYPE=release
+ninja -C obj/release
+ninja -C obj/release clean

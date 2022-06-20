@@ -1,0 +1,32 @@
+// Tower Kit documentation https://tower.hardwario.com/
+// SDK API description https://sdk.hardwario.com/
+// Forum https://forum.hardwario.com/
+
+#define VDDA_VOLTAGE 3.3f
+
+#include <application.h>
+
+// LED instance
+twr_led_t led;
+
+// Application initialization function which is called once after boot
+void application_init(void)
+{
+    // Initialize logging
+    twr_log_init(TWR_LOG_LEVEL_DUMP, TWR_LOG_TIMESTAMP_ABS);
+
+    // Initialize LED
+    twr_led_init(&led, TWR_GPIO_LED, false, 0);
+    twr_led_pulse(&led, 2000);
+
+    twr_scheduler_plan_relative(0, 1000);
+}
+
+void application_task()
+{
+    twr_led_blink(&led, 1);
+
+    twr_log_debug("JSEM TU");
+
+    twr_scheduler_plan_current_relative(1000);
+}
