@@ -4,5 +4,7 @@ function(generate_object target suffix type)
         COMMAND echo "Creating ${OUT_DIR}/${TYPE}/${target}${suffix} from ${OUT_DIR}/${TYPE}/${target}${CMAKE_EXECUTABLE_SUFFIX}..."
         COMMAND ${CMAKE_OBJCOPY} -O ${type}
         "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/${target}${suffix}"
+        COMMAND ${CMAKE_OBJCOPY} -O ${type}
+        "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_SOURCE_DIR}/${target}${suffix}"
     )
 endfunction()
