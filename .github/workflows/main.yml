@@ -34,7 +34,7 @@ jobs:
       run: |
         echo "GITHUB_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         echo "REPOSITORY_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
-        mv ${{github.workspace}}/out/release/firmware.bin ${{ env.REPOSITORY_NAME }}-${{ env.GITHUB_TAG }}.bin
+        mv ${{github.workspace}}/out/release/firmware.bin ${GITHUB_REPOSITORY##*/}-${GITHUB_REF#refs/*/}.bin
 
     - name: Release
       if: ${{ github.event_name == 'release' }}
