@@ -24,8 +24,7 @@ jobs:
     
     - name: Configure CMake
       run: |
-        ninja --version
-        cmake -B ${{github.workspace}}/obj/${{env.BUILD_TYPE}} . -G ninja -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/sdk/toolchain/toolchain.cmake -DTYPE=${{env.BUILD_TYPE}}
+        cmake -B ${{github.workspace}}/obj/${{env.BUILD_TYPE}} . -G Ninja -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/sdk/toolchain/toolchain.cmake -DTYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       run: ninja -C ${{github.workspace}}/obj/${{env.BUILD_TYPE}}
