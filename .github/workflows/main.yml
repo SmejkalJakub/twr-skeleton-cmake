@@ -19,8 +19,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: arm-none-eabi-gcc
-      uses: fiam/arm-none-eabi-gcc@v1.0.2
+    - name: arm-none-eabi-gcc GNU Arm Embedded Toolchain
+      uses: carlosperate/arm-none-eabi-gcc-action@v1.4.0
     
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1.1
