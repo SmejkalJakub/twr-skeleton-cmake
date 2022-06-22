@@ -33,7 +33,9 @@ jobs:
 
     - name: Rename Firmware
       if: ${{ github.event_name == 'release' }}
-      run: mv ${{github.workspace}}/out/release/firmware.bin ${{env.REPOSITORY_NAME}}-${{env.VERSION}}.bin
+      run: |
+        mv ${{github.workspace}}/out/release/firmware.bin ${{env.REPOSITORY_NAME}}-${{env.VERSION}}.bin
+        ls
 
     - name: Setup env
       if: ${{ github.event_name == 'release' }}
