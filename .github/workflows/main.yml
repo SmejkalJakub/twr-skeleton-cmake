@@ -33,11 +33,13 @@ jobs:
 
     - name: Rename Firmware
       if: ${{ github.event_name == 'release' }}
+      run: mv ${{github.workspace}}/out/release/firmware.bin ${{env.REPOSITORY_NAME}}-${{env.VERSION}}.bin
+
+    - name: Setup env
+      if: ${{ github.event_name == 'release' }}
       run: |
-        echo "${{env.REPOSITORY_NAME}}"
-        echo "${{env.VERSION}}"
-        mv ${{github.workspace}}/out/release/firmware.bin ${{env.REPOSITORY_NAME}}-${{env.VERSION}}.bin
-        ls
+        echo "REPORSIORY=${{env.REPOSITORY_NAME}}" >> "$GITHUB_ENV"
+        echo "TAG=${{env.VERSION}}" >> "$GITHUB_ENV"
 
     - name: Release
       if: ${{ github.event_name == 'release' }}
@@ -45,4 +47,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        files: "${{env.REPOSITORY_NAME}}-${{env.VERSION}}.bin"
+        files: ${{env.REPORSIORY}}-${{env.TAG}}.bin"
