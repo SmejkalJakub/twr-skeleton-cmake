@@ -37,6 +37,7 @@ jobs:
         echo "${{env.REPOSITORY_NAME}}"
         echo "${{env.VERSION}}"
         mv ${{github.workspace}}/out/release/firmware.bin ${{env.REPOSITORY_NAME}}-${{env.VERSION}}.bin
+        ls
 
     - name: Release
       if: ${{ github.event_name == 'release' }}
