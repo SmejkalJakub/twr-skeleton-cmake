@@ -1,7 +1,10 @@
+# Toolchain file that takes care of the cross compilation for the Core Module
+
 # Setup cross compilation
 set(CMAKE_SYSTEM_NAME Generic)
 set(CMAKE_SYSTEM_PROCESSOR ARM)
 
+# Setup how the toolchain should be located
 if(MINGW OR CYGWIN OR WIN32)
     set(UTIL_SEARCH_CMD where)
 elseif(UNIX OR APPLE)
@@ -11,12 +14,12 @@ endif()
 # Set selected toolchain prefix
 set(TOOLCHAIN_PREFIX arm-none-eabi-)
 
+# Locate the toolchain
 execute_process(
   COMMAND ${UTIL_SEARCH_CMD} ${TOOLCHAIN_PREFIX}gcc
   OUTPUT_VARIABLE BINUTILS_PATH
   OUTPUT_STRIP_TRAILING_WHITESPACE
 )
-
 get_filename_component(ARM_TOOLCHAIN_DIR ${BINUTILS_PATH} DIRECTORY)
 
 # Without that flag CMake is not able to pass test compilation check
@@ -30,20 +33,19 @@ endif()
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${CMAKE_C_COMPILER})
 
+# Setup CFLAGS based on target system
+if(CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D __weak=__attribute__((weak))")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D __packed=__attribute__((__packed__))")
+else()
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'__weak=__attribute__((weak))'")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'__packed=__attribute__((__packed__))'")
+endif()
+
+# Setup default CFLAGS
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUSE_HAL_DRIVER")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSTM32L083xx")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAL_IWDG_MODULE_ENABLED")
-
-# Setup CFLAGS based on target system
-if(CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D __weak=__attribute__((weak))")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D __packed=__attribute__((__packed__))")
-else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'__weak=__attribute__((weak))'")
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'__packed=__attribute__((__packed__))'")
-endif()
-
-# Setup the rest of CFLAGS
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-m0plus")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mthumb")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mlittle-endian")
@@ -57,6 +59,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fdata-sections")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
 
+# Setup HARDWARIO TOWER special CFLAGS
 if(DEFINED SCHEDULER_INTERVAL)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DTWR_SCHEDULER_INTERVAL_MS=${SCHEDULER_INTERVAL}")
 endif()
@@ -73,7 +76,6 @@ set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/sys/lkr/stm32l083cz.ld)
 
 # Setup utils
 set(CMAKE_OBJCOPY ${ARM_TOOLCHAIN_DIR}/${TOOLCHAIN_PREFIX}objcopy CACHE INTERNAL "objcopy tool")
-set(CMAKE_SIZE_UTIL ${ARM_TOOLCHAIN_DIR}/${TOOLCHAIN_PREFIX}size CACHE INTERNAL "size tool")
 
 set(CMAKE_SYSROOT ${ARM_TOOLCHAIN_DIR}/../arm-none-eabi)
 set(CMAKE_FIND_ROOT_PATH ${BINUTILS_PATH})

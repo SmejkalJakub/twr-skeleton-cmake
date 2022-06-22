@@ -1,6 +1,5 @@
 # Set helper variables
 set(OUT_DIR out)
-set(SDK_DIR sdk)
 set(TOOLCHAIN_DIR toolchain)
 
 # Set extension for final binary and output directory
@@ -11,11 +10,13 @@ set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/)
 set(MAP ${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/${CMAKE_PROJECT_NAME}.map)
 
 # Setup VERSION CFLAG based on system
+# Default VERSION is set to "vdev" for development
 if(NOT DEFINED VERSION)
     set(VERSION vdev)
 endif()
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVERSION=${VERSION}")
+add_compile_definitions(VERSION=\"${VERSION}\")
 
+# Set default build type to "debug"
 if(NOT DEFINED TYPE)
     set(TYPE debug)
 ENDIF()
@@ -65,12 +66,14 @@ set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --specs=nosys.specs")
 # Create the final executable 'firmware.elf'
 add_executable(${CMAKE_PROJECT_NAME})
 
+# All other directories with source files
+# You need to update the specific CMakeLists files in the respective directories if you want to update the SDK
 add_subdirectory(twr)
 add_subdirectory(bcl)
 add_subdirectory(stm)
 add_subdirectory(lib)
 add_subdirectory(sys)
 
-# Generate the final 'firmware.bin' file
+# Generate the final "firmware.bin" in "out" directory and root directory
 include(${TOOLCHAIN_DIR}/utils.cmake)
 generate_object(${CMAKE_PROJECT_NAME} .bin binary)
