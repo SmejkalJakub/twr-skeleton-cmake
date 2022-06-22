@@ -1,19 +1,14 @@
 #ifndef _APPLICATION_H
 #define _APPLICATION_H
 
-#ifndef VERSION
-#define VERSION "vdev"
-#endif
-
 #include <twr.h>
 #include <twr_pcal6416a.h>
 #include <twr_delay.h>
-#include <bcl.h>
 
 #define NUMBER_OF_GPIO_TESTS 4
 #define NUMBER_OF_GPIO_SUB_TESTS 5
 
-typedef enum 
+typedef enum
 {
     PU_PIN = 0,
     ON_PIN = 1,

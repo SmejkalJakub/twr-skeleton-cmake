@@ -19,7 +19,11 @@ void application_init(void)
     twr_led_init(&led, TWR_GPIO_LED, false, 0);
     twr_led_pulse(&led, 2000);
 
+    twr_radio_init(TWR_RADIO_MODE_NODE_SLEEPING);
+    twr_radio_pairing_request("skeleton", VERSION);
+
     twr_scheduler_plan_relative(0, 1000);
+
 }
 
 void application_task()
@@ -27,6 +31,7 @@ void application_task()
     twr_led_blink(&led, 1);
 
     twr_log_debug("JSEM TU");
+    twr_radio_pub_string("test", "test");
 
     twr_scheduler_plan_current_relative(1000);
 }
