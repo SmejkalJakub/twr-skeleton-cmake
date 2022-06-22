@@ -23,8 +23,15 @@
         "${default}"
     ],
     "C_Cpp.default.cStandard": "c11",
-    "files.associations": {
-        "stm32l0xx_hal_conf.h": "c"
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/.vscode": true,
+        ".vscode": true
     },
-    "terminal.integrated.shell.windows": "C:\\Windows\\sysnative\\cmd.exe"
+    "explorerExclude.backup": null
 }

@@ -14,9 +14,17 @@ set(MAP ${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/${CMAKE_PROJECT_NAME}.map)
 # Setup VERSION CFLAG based on system
 # Default VERSION is set to "vdev" for development
 if(NOT DEFINED VERSION)
-    set(VERSION vdev)
+    getVersion()
 endif()
 add_compile_definitions(VERSION=\"${VERSION}\")
+
+if(NOT DEFINED GIT_VERSION)
+    getGitVersion()
+endif()
+add_compile_definitions(GIT_VERSION=\"${GIT_VERSION}\")
+
+string(TIMESTAMP BUILD_DATE "%Y-%m-%d %H:%M:%S" UTC)
+add_compile_definitions(BUILD_DATE=\"${BUILD_DATE}\")
 
 # Set default build type to "debug"
 if(NOT DEFINED TYPE)

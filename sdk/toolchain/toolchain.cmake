@@ -33,16 +33,9 @@ endif()
 set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${CMAKE_C_COMPILER})
 
-# Setup CFLAGS based on target system
-if(CMAKE_HOST_SYSTEM_NAME MATCHES Windows)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D __weak=__attribute__((weak))")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D __packed=__attribute__((__packed__))")
-else()
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'__weak=__attribute__((weak))'")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D'__packed=__attribute__((__packed__))'")
-endif()
-
 # Setup default CFLAGS
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D\"__weak=__attribute__((weak))\"")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D\"__packed=__attribute__((__packed__))\"")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUSE_HAL_DRIVER")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSTM32L083xx")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAL_IWDG_MODULE_ENABLED")
