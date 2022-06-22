@@ -19,12 +19,14 @@ jobs:
     - uses: actions/checkout@v3
     - name: Setup GNU Arm Embedded Toolchain
       uses: carlosperate/arm-none-eabi-gcc-action@v1.4.0
-      
+
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1.1
-    
+
     - name: Configure CMake
-      run: cmake -B ${{github.workspace}}/obj/${{env.BUILD_TYPE}} . -G Ninja -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/sdk/toolchain/toolchain.cmake -DTYPE=${{env.BUILD_TYPE}}
+      run: |
+        echo "GITHUB_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        cmake -B ${{github.workspace}}/obj/${{env.BUILD_TYPE}} . -G Ninja -DCMAKE_TOOLCHAIN_FILE=${{github.workspace}}/sdk/toolchain/toolchain.cmake -DTYPE=${{env.BUILD_TYPE}} -DVERSION=${{ env.GITHUB_TAG }}
 
     - name: Build With Ninja
       run: ninja -C ${{github.workspace}}/obj/${{env.BUILD_TYPE}}
@@ -32,7 +34,6 @@ jobs:
     - name: Rename Firmware
       if: ${{ github.event_name == 'release' }}
       run: |
-        echo "GITHUB_TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
         echo "REPOSITORY_NAME=${GITHUB_REPOSITORY##*/}" >> $GITHUB_ENV
         mv ${{github.workspace}}/out/release/firmware.bin ${GITHUB_REPOSITORY##*/}-${GITHUB_REF#refs/*/}.bin
 
@@ -43,4 +44,4 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
       with:
         files: ${{ env.REPOSITORY_NAME }}-${{ env.GITHUB_TAG }}.bin
-      
+
