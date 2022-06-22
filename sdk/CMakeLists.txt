@@ -2,6 +2,8 @@
 set(OUT_DIR out)
 set(TOOLCHAIN_DIR toolchain)
 
+include(${TOOLCHAIN_DIR}/utils.cmake)
+
 # Set extension for final binary and output directory
 set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/)
@@ -75,5 +77,4 @@ add_subdirectory(lib)
 add_subdirectory(sys)
 
 # Generate the final "firmware.bin" in "out" directory and root directory
-include(${TOOLCHAIN_DIR}/utils.cmake)
 generate_object(${CMAKE_PROJECT_NAME} .bin binary)

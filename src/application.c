@@ -31,7 +31,8 @@ void application_task()
     twr_led_blink(&led, 1);
 
     twr_log_debug("JSEM TU");
-    twr_radio_pub_string("test", "test");
+    twr_log_debug(VERSION);
+    //twr_radio_pub_string("test", "test");
 
     twr_scheduler_plan_current_relative(1000);
 }
