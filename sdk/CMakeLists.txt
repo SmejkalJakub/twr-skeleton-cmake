@@ -8,7 +8,7 @@ include(${TOOLCHAIN_DIR}/utils.cmake)
 set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/)
 
-#Map file location
+# Map file location
 set(MAP ${CMAKE_SOURCE_DIR}/${OUT_DIR}/${TYPE}/${CMAKE_PROJECT_NAME}.map)
 
 # Setup VERSION CFLAG based on system
@@ -25,6 +25,9 @@ add_compile_definitions(GIT_VERSION=\"${GIT_VERSION}\")
 
 string(TIMESTAMP BUILD_DATE "%Y-%m-%d %H:%M:%S" UTC)
 add_compile_definitions(BUILD_DATE=\"${BUILD_DATE}\")
+
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DVERSION=$$(echo \\\"$$(git describe --tags --abbrev=0 --dirty=m 2>nul || echo vdev)\\\")")
+#set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DGIT_VERSION=$$(echo \\\"$$(git describe --tags --abbrev=8 --always --dirty=\\(modified\\) 2>nul || echo vdev)\\\")")
 
 # Set default build type to "debug"
 if(NOT DEFINED TYPE)

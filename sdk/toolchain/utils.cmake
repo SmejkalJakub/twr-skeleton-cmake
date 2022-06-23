@@ -11,7 +11,6 @@ function(generate_object target suffix type)
     )
 endfunction()
 
-
 function(getVersion)
     execute_process(
         COMMAND git describe --tags --abbrev=0 --dirty=m
