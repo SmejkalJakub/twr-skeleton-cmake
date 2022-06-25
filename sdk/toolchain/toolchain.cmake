@@ -34,38 +34,31 @@ set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc)
 set(CMAKE_ASM_COMPILER ${CMAKE_C_COMPILER})
 
 # Setup default CFLAGS
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D\"__weak=__attribute__((weak))\"")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D\"__packed=__attribute__((__packed__))\"")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DUSE_HAL_DRIVER")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSTM32L083xx")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DHAL_IWDG_MODULE_ENABLED")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcpu=cortex-m0plus")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mthumb")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mlittle-endian")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -pedantic")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wextra")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wmissing-include-dirs")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wswitch-default")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wswitch-enum")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -ffunction-sections")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fdata-sections")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11")
+add_definitions("-D__weak=__attribute__((weak))")
+add_definitions("-D__packed=__attribute__((__packed__))")
+add_definitions("-DUSE_HAL_DRIVER")
+add_definitions("-DSTM32L083xx")
+add_definitions("-DHAL_IWDG_MODULE_ENABLED")
+
+add_compile_options(-mcpu=cortex-m0plus)
+add_compile_options(-mthumb)
+add_compile_options(-mlittle-endian)
+add_compile_options(-Wall)
+add_compile_options(-pedantic)
+add_compile_options(-Wextra)
+add_compile_options(-Wmissing-include-dirs)
+add_compile_options(-Wswitch-default)
+add_compile_options(-Wswitch-enum)
+add_compile_options(-ffunction-sections)
+add_compile_options(-fdata-sections)
+add_compile_options(-std=c11)
 
 # Setup HARDWARIO TOWER special CFLAGS
 if(DEFINED SCHEDULER_INTERVAL)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DTWR_SCHEDULER_INTERVAL_MS=${SCHEDULER_INTERVAL}")
+    add_definitions("-DTWR_SCHEDULER_INTERVAL_MS=${SCHEDULER_INTERVAL}")
 endif()
 
-set(BAND 868)
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DBAND=${BAND}")
-
-set(CMAKE_ASH_FLAGS "${CMAKE_ASH_FLAGS} -mcpu=cortex-m0plus")
-set(CMAKE_ASH_FLAGS "${CMAKE_ASH_FLAGS} -mthumb")
-set(CMAKE_ASH_FLAGS "${CMAKE_ASH_FLAGS} -mlittle-endian")
-
-# Linker script
-set(LINKER_SCRIPT ${CMAKE_CURRENT_SOURCE_DIR}/sys/lkr/stm32l083cz.ld)
+add_definitions("-DBAND=868")
 
 # Setup utils
 set(CMAKE_OBJCOPY ${ARM_TOOLCHAIN_DIR}/${TOOLCHAIN_PREFIX}objcopy CACHE INTERNAL "objcopy tool")

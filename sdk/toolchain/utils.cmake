@@ -10,39 +10,3 @@ function(generate_object target suffix type)
         "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${target}${CMAKE_EXECUTABLE_SUFFIX}" "${CMAKE_SOURCE_DIR}/${target}${suffix}"
     )
 endfunction()
-
-function(getVersion)
-    execute_process(
-        COMMAND git describe --tags --abbrev=0 --dirty=m
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-        RESULT_VARIABLE res
-        OUTPUT_VARIABLE out
-        ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-    if(NOT res EQUAL 0)
-        set(out vdev)
-    endif()
-
-    set(VERSION
-        "${out}"
-        PARENT_SCOPE)
-endfunction(getVersion)
-
-function(getGitVersion)
-    execute_process(
-        COMMAND git describe --tags --abbrev=8 --always --dirty=\(modified\)
-        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-        RESULT_VARIABLE res
-        OUTPUT_VARIABLE out
-        ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE
-    )
-
-    if(NOT res EQUAL 0)
-        set(out ?)
-    endif()
-
-    set(GIT_VERSION
-        "${out}"
-        PARENT_SCOPE)
-endfunction(getGitVersion)
