@@ -8,6 +8,10 @@
 #define NUMBER_OF_GPIO_TESTS 4
 #define NUMBER_OF_GPIO_SUB_TESTS 5
 
+#ifndef FW_VERSION
+#define FW_VERSION "vdev"
+#endif
+
 typedef enum
 {
     PU_PIN = 0,
