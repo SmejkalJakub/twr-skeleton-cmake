@@ -11,7 +11,7 @@ on:
 
 env:
   BUILD_TYPE: release
-  VERSION: ${GITHUB_REF##*/}
+  FW_VERSION: ${GITHUB_REF##*/}
   REPOSITORY_NAME: ${GITHUB_REPOSITORY##*/}
 
 jobs:

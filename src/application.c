@@ -20,7 +20,7 @@ void application_init(void)
     twr_led_pulse(&led, 2000);
 
     twr_radio_init(TWR_RADIO_MODE_NODE_SLEEPING);
-    twr_radio_pairing_request("skeleton", VERSION);
+    twr_radio_pairing_request("skeleton", FW_VERSION);
 
     twr_scheduler_plan_relative(0, 1000);
 
@@ -30,7 +30,7 @@ void application_task()
 {
     twr_led_blink(&led, 1);
 
-    twr_log_debug(VERSION);
+    twr_log_debug(FW_VERSION);
     twr_log_debug(BUILD_DATE);
     twr_log_debug(GIT_VERSION);
 
