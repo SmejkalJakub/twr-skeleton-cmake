@@ -34,5 +34,9 @@ void application_task()
     twr_log_debug(BUILD_DATE);
     twr_log_debug(GIT_VERSION);
 
-    twr_scheduler_plan_current_relative(1000);
+    twr_radio_pub_string("fw_version", FW_VERSION);
+    twr_radio_pub_string("build_date", BUILD_DATE);
+    twr_radio_pub_string("git_version", GIT_VERSION);
+
+    twr_scheduler_plan_current_relative(5000);
 }
