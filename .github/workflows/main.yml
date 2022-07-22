@@ -28,7 +28,7 @@ jobs:
       if: ${{ github.event_name == 'release' }}
       run: |
         echo "REPORSIORY=${{env.REPOSITORY_NAME}}" >> "$GITHUB_ENV"
-        echo "TAG=${{env.FW_VERSION}}" >> "$GITHUB_ENV"
+        echo "FW_VERSION=${{env.FW_VERSION}}" >> "$GITHUB_ENV"
         
     - name: Setup Ninja
       uses: ashutoshvarma/setup-ninja@v1.1
@@ -49,4 +49,4 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ github.token }}
       with:
-        files: ${{env.REPORSIORY}}-${{env.TAG}}.bin
+        files: ${{env.REPORSIORY}}-${{env.FW_VERSION}}.bin
